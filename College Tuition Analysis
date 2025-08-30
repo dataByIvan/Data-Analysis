@@ -1,0 +1,712 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "id": "b6dd6a62-83bc-48d2-a7b2-571f9c4e21b0",
+   "metadata": {},
+   "source": [
+    "## HW2"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "77f768ae-3380-439d-8cd3-2db5e9161814",
+   "metadata": {},
+   "source": [
+    "Instructions: Answer each question in either a code cell or markdown cell as is appropriate. If you instructed to run a code cell, run it *as-is* with no changes. In all cases, answers should be accomplished via python code (not simply sifting through the data, for instance)."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "ed6a32fb-d045-4b5a-a78c-2e0a30cc5b60",
+   "metadata": {},
+   "source": [
+    "**Problem 1. Read in the** `colleges.csv` **dataset.** (NOTE: This should work on any computer assuming that the notebook and data are in the same folder. That is, your `read` statement should not reference any file structure specific to your computer. The `colleges.csv` data file is located in the data folder on Canvas.)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "id": "6f6147ca-6e82-4899-9817-06a394b1fc3c",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>ACT-Avg</th>\n",
+       "      <th>SAT-Avg</th>\n",
+       "      <th>Enrollment</th>\n",
+       "      <th>Acceptance-Rate</th>\n",
+       "      <th>RankingScore</th>\n",
+       "      <th>Percent-Receiving-Aid</th>\n",
+       "      <th>Cost-After-Aid</th>\n",
+       "      <th>Tuition</th>\n",
+       "      <th>Name</th>\n",
+       "      <th>Rank</th>\n",
+       "      <th>Designation</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>32.0</td>\n",
+       "      <td>1400.0</td>\n",
+       "      <td>5400.0</td>\n",
+       "      <td>7.0</td>\n",
+       "      <td>100.0</td>\n",
+       "      <td>60.0</td>\n",
+       "      <td>16793.0</td>\n",
+       "      <td>47140</td>\n",
+       "      <td>Princeton University</td>\n",
+       "      <td>1</td>\n",
+       "      <td>private</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>32.0</td>\n",
+       "      <td>1430.0</td>\n",
+       "      <td>6710.0</td>\n",
+       "      <td>5.0</td>\n",
+       "      <td>98.0</td>\n",
+       "      <td>55.0</td>\n",
+       "      <td>16338.0</td>\n",
+       "      <td>48949</td>\n",
+       "      <td>Harvard University</td>\n",
+       "      <td>2</td>\n",
+       "      <td>private</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>32.0</td>\n",
+       "      <td>1450.0</td>\n",
+       "      <td>5941.0</td>\n",
+       "      <td>8.0</td>\n",
+       "      <td>96.0</td>\n",
+       "      <td>42.0</td>\n",
+       "      <td>27767.0</td>\n",
+       "      <td>54825</td>\n",
+       "      <td>University of Chicago</td>\n",
+       "      <td>3</td>\n",
+       "      <td>private</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>32.0</td>\n",
+       "      <td>1420.0</td>\n",
+       "      <td>5472.0</td>\n",
+       "      <td>6.0</td>\n",
+       "      <td>96.0</td>\n",
+       "      <td>50.0</td>\n",
+       "      <td>18385.0</td>\n",
+       "      <td>51400</td>\n",
+       "      <td>Yale University</td>\n",
+       "      <td>3</td>\n",
+       "      <td>private</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>32.0</td>\n",
+       "      <td>1430.0</td>\n",
+       "      <td>6113.0</td>\n",
+       "      <td>6.0</td>\n",
+       "      <td>95.0</td>\n",
+       "      <td>48.0</td>\n",
+       "      <td>21041.0</td>\n",
+       "      <td>57208</td>\n",
+       "      <td>Columbia University</td>\n",
+       "      <td>5</td>\n",
+       "      <td>private</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "   ACT-Avg  SAT-Avg  Enrollment  Acceptance-Rate  RankingScore  \\\n",
+       "0     32.0   1400.0      5400.0              7.0         100.0   \n",
+       "1     32.0   1430.0      6710.0              5.0          98.0   \n",
+       "2     32.0   1450.0      5941.0              8.0          96.0   \n",
+       "3     32.0   1420.0      5472.0              6.0          96.0   \n",
+       "4     32.0   1430.0      6113.0              6.0          95.0   \n",
+       "\n",
+       "   Percent-Receiving-Aid  Cost-After-Aid  Tuition                   Name  \\\n",
+       "0                   60.0         16793.0    47140   Princeton University   \n",
+       "1                   55.0         16338.0    48949     Harvard University   \n",
+       "2                   42.0         27767.0    54825  University of Chicago   \n",
+       "3                   50.0         18385.0    51400        Yale University   \n",
+       "4                   48.0         21041.0    57208    Columbia University   \n",
+       "\n",
+       "   Rank Designation  \n",
+       "0     1     private  \n",
+       "1     2     private  \n",
+       "2     3     private  \n",
+       "3     3     private  \n",
+       "4     5     private  "
+      ]
+     },
+     "execution_count": 1,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "import pandas as pd\n",
+    "df = pd.read_csv(\"colleges.csv\")\n",
+    "df.head()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "id": "08254e5d-996e-4ab5-96bc-d51ecb8a01e0",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "311"
+      ]
+     },
+     "execution_count": 2,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "len(df)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "83952ed4-bcb5-4667-94c5-60c512f16260",
+   "metadata": {},
+   "source": [
+    "**Problem 2. In class we discussed tabular data from the perspective of observations and variables. Describe the observations and variables in this data set. Which variables are quantitative and which are categorical?** (Note: You may need to guess at the precise meaning of some of the variables. That's fine... do your best from the names of the columns. It may help to know that this is old data from teh 2018 US News and World Report rankings of colleges and universities.)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "07a370fb-bd61-4de4-9a98-e5fd4284941f",
+   "metadata": {},
+   "source": [
+    "The observations are the rows, so it starts from 0 and all the way to 310, as there are 311 total rows, so the last row is 311-1 since it starts counting at 0. Each observation contains different information about college scores of each student, and their information such as scores, tutition etc, of their indivdual information.\n",
+    "\n",
+    "Meanwhile, the variables are the columns, which varies. Such as their average ACT score, average SAT score, enrollment, tuition etc, of all students, not just one individually.\n",
+    "\n",
+    "The quantative variables include the variables with numbers in it usually. This includes the column 0,1,2,3,4,5,6,7, and 8.\n",
+    "I say usually because even though rank is a number, it falls under categorical, as summing the ranks and doing operations on it wouldn't really make sense. The categoricla variables include the rank, designation, and the name of their university. \n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "c264ff04-6112-418a-b23b-faf406d997ae",
+   "metadata": {},
+   "source": [
+    "**Problem 3. How many rows and columns are in the data set?**"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "id": "d54eca7e-1a83-40c5-acb6-0e3aafce794b",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "There are 311 rows in this data set.\n",
+      "There are 11 columns in this data set.\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(f'There are {len(df)} rows in this data set.')\n",
+    "print(f'There are {len(df.columns)} columns in this data set.')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "76b16cb7-1d9d-474f-8143-9af516f287e3",
+   "metadata": {},
+   "source": [
+    "**Problem 4. Add a column to the data frame which estimates the number of applications received by each school.**"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 11,
+   "id": "9dc66079-c366-4450-8f85-bd903e6116f9",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "df[\"Estimated number of applications\"] = (df[\"Enrollment\"] / (df[\"Acceptance-Rate\"]) / 100)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "id": "bc585792-41e0-411e-a534-448c552948d6",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>ACT-Avg</th>\n",
+       "      <th>SAT-Avg</th>\n",
+       "      <th>Enrollment</th>\n",
+       "      <th>Acceptance-Rate</th>\n",
+       "      <th>RankingScore</th>\n",
+       "      <th>Percent-Receiving-Aid</th>\n",
+       "      <th>Cost-After-Aid</th>\n",
+       "      <th>Tuition</th>\n",
+       "      <th>Name</th>\n",
+       "      <th>Rank</th>\n",
+       "      <th>Designation</th>\n",
+       "      <th>Estimated number of applications</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>32.0</td>\n",
+       "      <td>1400.0</td>\n",
+       "      <td>5400.0</td>\n",
+       "      <td>7.0</td>\n",
+       "      <td>100.0</td>\n",
+       "      <td>60.0</td>\n",
+       "      <td>16793.0</td>\n",
+       "      <td>47140</td>\n",
+       "      <td>Princeton University</td>\n",
+       "      <td>1</td>\n",
+       "      <td>private</td>\n",
+       "      <td>77142.857143</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "   ACT-Avg  SAT-Avg  Enrollment  Acceptance-Rate  RankingScore  \\\n",
+       "0     32.0   1400.0      5400.0              7.0         100.0   \n",
+       "\n",
+       "   Percent-Receiving-Aid  Cost-After-Aid  Tuition                  Name  Rank  \\\n",
+       "0                   60.0         16793.0    47140  Princeton University     1   \n",
+       "\n",
+       "  Designation  Estimated number of applications  \n",
+       "0     private                      77142.857143  "
+      ]
+     },
+     "execution_count": 10,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df.head(1)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "268fdb7c-8e97-4785-8b5c-4d6f157af2ea",
+   "metadata": {},
+   "source": [
+    "**Problem 5. What is the average acceptance rate among the schools in the data set?**"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 12,
+   "id": "4942d9b9-0c8b-404b-83fe-7383828ecde4",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import numpy as np"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 29,
+   "id": "89c3362f-434b-4de7-a79c-b21c39b8f56c",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "The average acceptance rate among the schools is 60.39%.\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(f\"The average acceptance rate among the schools is {round(np.mean(df['Acceptance-Rate']), 2)}%.\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "80b25309-fdd1-455d-bf81-cb9404d0aa98",
+   "metadata": {},
+   "source": [
+    "**Problem 6. What is the average tuition for the schools in the data set?**"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 26,
+   "id": "aae13d8f-9718-474e-b6b7-54d49a816a1a",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "The average tuition among the schools is $31121.34.\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(f\"The average tuition among the schools is ${round(np.mean(df['Tuition']), 2)}.\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "a09af719-f1df-4725-9298-89bca02e2e7a",
+   "metadata": {},
+   "source": [
+    "**Problem 7. Among all schools ranked 97th, which one has the highest average SAT score?**"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 42,
+   "id": "e053c48c-b338-4f5a-9c9f-6b7e18ff7d5a",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "The 97th ranked school with the highest average SAT score is Stony Brook University--SUNY.\n"
+     ]
+    }
+   ],
+   "source": [
+    "rank_97 = df.loc[df[\"Rank\"] == 97]\n",
+    "rank_97 = rank_97.sort_values(\"SAT-Avg\", ascending = False)\n",
+    "stony = rank_97.head(1)\n",
+    "print(f'The 97th ranked school with the highest average SAT score is {rank_97.iloc[0][\"Name\"]}.')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "2abc55d6-b492-4f45-812f-dd20fbc0b053",
+   "metadata": {},
+   "source": [
+    "**Problem 8. What is the most expensive college (based on tuition) in the data set?**"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 47,
+   "id": "8fbc26f3-f581-4b79-85bd-18ad824f3395",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "The most expensive college is Columbia University.\n"
+     ]
+    }
+   ],
+   "source": [
+    "tuition = df.sort_values(\"Tuition\", ascending = False)\n",
+    "print(f'The most expensive college is {tuition.iloc[0][\"Name\"]}.')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "56465afa-99a7-49e9-8de5-18f6fb16fff2",
+   "metadata": {},
+   "source": [
+    "**Problem 9. Create a new column in the dataframe which estimates, for each college, the revenue that college receives from tuition paid by students.**"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 51,
+   "id": "90719097-44e9-418f-a191-d9aab4e2fd36",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>ACT-Avg</th>\n",
+       "      <th>SAT-Avg</th>\n",
+       "      <th>Enrollment</th>\n",
+       "      <th>Acceptance-Rate</th>\n",
+       "      <th>RankingScore</th>\n",
+       "      <th>Percent-Receiving-Aid</th>\n",
+       "      <th>Cost-After-Aid</th>\n",
+       "      <th>Tuition</th>\n",
+       "      <th>Name</th>\n",
+       "      <th>Rank</th>\n",
+       "      <th>Designation</th>\n",
+       "      <th>Estimated number of applications</th>\n",
+       "      <th>Revenue</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>32.0</td>\n",
+       "      <td>1400.0</td>\n",
+       "      <td>5400.0</td>\n",
+       "      <td>7.0</td>\n",
+       "      <td>100.0</td>\n",
+       "      <td>60.0</td>\n",
+       "      <td>16793.0</td>\n",
+       "      <td>47140</td>\n",
+       "      <td>Princeton University</td>\n",
+       "      <td>1</td>\n",
+       "      <td>private</td>\n",
+       "      <td>7.714286</td>\n",
+       "      <td>254556000.0</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "   ACT-Avg  SAT-Avg  Enrollment  Acceptance-Rate  RankingScore  \\\n",
+       "0     32.0   1400.0      5400.0              7.0         100.0   \n",
+       "\n",
+       "   Percent-Receiving-Aid  Cost-After-Aid  Tuition                  Name  Rank  \\\n",
+       "0                   60.0         16793.0    47140  Princeton University     1   \n",
+       "\n",
+       "  Designation  Estimated number of applications      Revenue  \n",
+       "0     private                          7.714286  254556000.0  "
+      ]
+     },
+     "execution_count": 51,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df.head(1)\n",
+    "df[\"Revenue\"] = df[\"Enrollment\"] * df[\"Tuition\"]\n",
+    "df.head(1)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "a7b084c9-2039-4015-a255-84ffab86517e",
+   "metadata": {},
+   "source": [
+    "**Problem 10. Create a new data frame called** `public_colleges` **consisting of all the schools with a `Designation` value of** `public`. **Do the same for** `private`. "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 55,
+   "id": "e11d12fc-25d6-466c-993c-480cd0123cdf",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>ACT-Avg</th>\n",
+       "      <th>SAT-Avg</th>\n",
+       "      <th>Enrollment</th>\n",
+       "      <th>Acceptance-Rate</th>\n",
+       "      <th>RankingScore</th>\n",
+       "      <th>Percent-Receiving-Aid</th>\n",
+       "      <th>Cost-After-Aid</th>\n",
+       "      <th>Tuition</th>\n",
+       "      <th>Name</th>\n",
+       "      <th>Rank</th>\n",
+       "      <th>Designation</th>\n",
+       "      <th>Estimated number of applications</th>\n",
+       "      <th>Revenue</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>21</th>\n",
+       "      <td>29.0</td>\n",
+       "      <td>1300.0</td>\n",
+       "      <td>29311.0</td>\n",
+       "      <td>16.0</td>\n",
+       "      <td>78.0</td>\n",
+       "      <td>23.0</td>\n",
+       "      <td>49614.0</td>\n",
+       "      <td>42112</td>\n",
+       "      <td>University of California--Berkeley</td>\n",
+       "      <td>21</td>\n",
+       "      <td>public</td>\n",
+       "      <td>18.319375</td>\n",
+       "      <td>1.234345e+09</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "    ACT-Avg  SAT-Avg  Enrollment  Acceptance-Rate  RankingScore  \\\n",
+       "21     29.0   1300.0     29311.0             16.0          78.0   \n",
+       "\n",
+       "    Percent-Receiving-Aid  Cost-After-Aid  Tuition  \\\n",
+       "21                   23.0         49614.0    42112   \n",
+       "\n",
+       "                                  Name  Rank Designation  \\\n",
+       "21  University of California--Berkeley    21      public   \n",
+       "\n",
+       "    Estimated number of applications       Revenue  \n",
+       "21                         18.319375  1.234345e+09  "
+      ]
+     },
+     "execution_count": 55,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "public_colleges = df.loc[df[\"Designation\"] == \"public\"]\n",
+    "private_colleges = df.loc[df[\"Designation\"] == \"private\"]\n",
+    "\n",
+    "public_colleges.head(1)\n",
+    "#private_colleges.head(1)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "b855cf7c-5f63-40ae-88ae-feab1f61e1ea",
+   "metadata": {},
+   "source": [
+    "**Problem 8. What is the average tuition for public colleges? Private colleges?**"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 56,
+   "id": "f3416464-d98e-4678-91c6-c55c54edb522",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Average tuition (public): $25968.98\n",
+      "Average tuition (private): $40871.04\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(f\"Average tuition (public): ${public_colleges['Tuition'].mean():.2f}\")\n",
+    "print(f\"Average tuition (private): ${private_colleges['Tuition'].mean():.2f}\")\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "112f0aab-5736-4dae-8bc3-7a010481e91d",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3 (ipykernel)",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.13.7"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
