@@ -1,0 +1,2998 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "id": "c582e787-8151-411c-8377-7c86add268d4",
+   "metadata": {},
+   "source": [
+    "### Data Frames"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "6cd719d5-ebb7-462d-b667-2996319104f8",
+   "metadata": {},
+   "source": [
+    "This is the main reason we use `python` for data analysis. The `data frame` data structure is incredibly useful for working with data. Just like `arrays` were not part of base `python`, however, neither is the `data frame`."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "7f47bb2c-f8e4-44ae-884c-ee5c36ca59f2",
+   "metadata": {},
+   "source": [
+    "First let's import the packages we need. Our new `data structure` will come via the `pandas` package. "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "id": "43c3880a-828e-4af9-a995-e11322802364",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import numpy as np\n",
+    "import pandas as pd"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "d0280b44-c9aa-419b-aaff-3b648ca52521",
+   "metadata": {},
+   "source": [
+    "Now, let's import some data. There's a folder titled `data` in Canvas Files section. In that folder is a file called `us_state_pop_2024.csv`. Download that file and move it to the same folder that your jupyter notebook is in."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "16c4201f-5f97-4485-817d-587c6be76c60",
+   "metadata": {},
+   "source": [
+    "Now, read that file into python using the following command:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "id": "92138c13-8205-41d2-9238-40da76b50d95",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "df=pd.read_csv('us_state_pop_2024.csv')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "id": "5e4dff49-56a2-4cc5-8b0b-302cb8682863",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "51"
+      ]
+     },
+     "execution_count": 4,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "len(df)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "id": "f6c7fa02-4e5a-4da6-85db-b2bfbb560ba4",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "#df.head()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "a873e106-2aca-4eb9-8e91-0614b02e8305",
+   "metadata": {},
+   "source": [
+    "If you're trying to keep your folders and files organized on your computer, you might want to have a separate folder for data files. For example, maybe you have a folder called `bsds100` where your jupyter notebooks are. Then inside that folder you can create another folder called `data` and put our file inside. Then we can read the file in as follows:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 19,
+   "id": "e18f07a2-fa2d-4291-b16f-f4fc30599ef3",
+   "metadata": {
+    "collapsed": true,
+    "jupyter": {
+     "outputs_hidden": true
+    }
+   },
+   "outputs": [],
+   "source": [
+    "df=pd.read_csv('data/us_state_pop_2024.csv')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "ebe22f5a-2d2d-4b2e-801f-108097b2cf9b",
+   "metadata": {},
+   "source": [
+    "If you get an error, the most likely cause is that python can't find the file, so make sure it lives in the same folder with your notebooks. "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "10908230-9918-40f8-b249-57268334a76b",
+   "metadata": {},
+   "source": [
+    "Note 1: The file we read in is a `.csv` file which stands for *comma separated values*, and is a common format for data files.\n",
+    "\n",
+    "Note 2: The `pd.read_csv()` command is a function that reads the file in as a data frame.  We'll talk about it more in a minute. Note, however, that we also assigned the file (via the `=`) to a variable named `df` (for data frame) but we certainly could have used a different name.  "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "8b0bafad-1610-42df-b8bb-52622dae6b5b",
+   "metadata": {},
+   "source": [
+    "Let's look at the file. There's a useful method for data frames (data frames are, of course, objects) that let's us peek at part of the file:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "id": "a9ab96eb-35a7-4bcb-a58a-4cddc1165203",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>State</th>\n",
+       "      <th>Population</th>\n",
+       "      <th>Adult_Population</th>\n",
+       "      <th>sq_miles</th>\n",
+       "      <th>Coast</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>Alabama</td>\n",
+       "      <td>5157699</td>\n",
+       "      <td>4022842</td>\n",
+       "      <td>52420</td>\n",
+       "      <td>GM</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>Alaska</td>\n",
+       "      <td>740133</td>\n",
+       "      <td>565186</td>\n",
+       "      <td>665384</td>\n",
+       "      <td>PO</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>Arizona</td>\n",
+       "      <td>7582384</td>\n",
+       "      <td>5994209</td>\n",
+       "      <td>113990</td>\n",
+       "      <td>NaN</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>Arkansas</td>\n",
+       "      <td>3088354</td>\n",
+       "      <td>2386510</td>\n",
+       "      <td>53179</td>\n",
+       "      <td>NaN</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>California</td>\n",
+       "      <td>39431263</td>\n",
+       "      <td>31012711</td>\n",
+       "      <td>163695</td>\n",
+       "      <td>PO</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "        State  Population  Adult_Population  sq_miles Coast\n",
+       "0     Alabama     5157699           4022842     52420    GM\n",
+       "1      Alaska      740133            565186    665384    PO\n",
+       "2     Arizona     7582384           5994209    113990   NaN\n",
+       "3    Arkansas     3088354           2386510     53179   NaN\n",
+       "4  California    39431263          31012711    163695    PO"
+      ]
+     },
+     "execution_count": 7,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df.head()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "eb31317b-3f6d-43d4-abdb-2bae4987d753",
+   "metadata": {},
+   "source": [
+    "Data frames are used for *tabular* data: Like an Excel spreadsheet or a Google sheet."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "d9ffd5ce-2aa1-4004-9504-8b30b0749085",
+   "metadata": {},
+   "source": [
+    "Tabular data consists of *ROWS* and *COLUMNS*. (So in some ways it's like a two dimensional numpy array, BUT, much more flexible and general as we'll see.)  "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 11,
+   "id": "efb13cb9-fd74-43b1-87d2-c24eed0b8b8b",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "(51, 5)"
+      ]
+     },
+     "execution_count": 11,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df.shape"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "30ea61e4-fe8b-45dc-bc6b-be8064c7240f",
+   "metadata": {},
+   "source": [
+    "Our data frame has 51 rows and 5 columns."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "93e6f8de-61fd-43db-adbd-c590d0e67849",
+   "metadata": {},
+   "source": [
+    "Notice that each row and column has a *name*. The row names are in bold on the left side of the dataframe. In this case, they seem to be the integers 0,1,2,3,4,.... The names for the rows in a data frame is called the `index` of the data frame. Even though it's the case here, in general the index doesn't have to be integers so that's different from numpy arrays."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "217e93c4-0fcc-442e-b92c-3cd4c4c318cd",
+   "metadata": {},
+   "source": [
+    "The column names are in bold along the top row. They are words (or strings) that seem to be describing the information stored in each column."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 12,
+   "id": "129627fd-5a79-4d27-83f1-aaed1f954900",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "RangeIndex(start=0, stop=51, step=1)"
+      ]
+     },
+     "execution_count": 12,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df.index"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 13,
+   "id": "61699175-6e5a-4c03-9d6c-37ee06201ee7",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "Index(['State', 'Population', 'Adult_Population', 'sq_miles', 'Coast'], dtype='object')"
+      ]
+     },
+     "execution_count": 13,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df.columns"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "0de0dfd1-a0ba-44d2-bb6b-a33147db7b39",
+   "metadata": {},
+   "source": [
+    "Note that pandas thinks of the columns as an `index` too. That's becuase the names of the columns are like labels for the columns just like the numbers are the labels for each row."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "80c218a8-0b3a-4041-aa7b-ab98feb82706",
+   "metadata": {},
+   "source": [
+    "Indeed, the `index` of `df` runs from 0 to 51 in steps of 1 and the four column names are listed."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "5ffd0716-1b92-48d1-b315-7a5e84031faa",
+   "metadata": {},
+   "source": [
+    "If we want to see more of the data frame we can ask (though at some point if there's too much output it will get hidden):"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 14,
+   "id": "bdf649ab-c383-4b6e-8673-66c37ba0d03f",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>State</th>\n",
+       "      <th>Population</th>\n",
+       "      <th>Adult_Population</th>\n",
+       "      <th>sq_miles</th>\n",
+       "      <th>Coast</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>Alabama</td>\n",
+       "      <td>5157699</td>\n",
+       "      <td>4022842</td>\n",
+       "      <td>52420</td>\n",
+       "      <td>GM</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>Alaska</td>\n",
+       "      <td>740133</td>\n",
+       "      <td>565186</td>\n",
+       "      <td>665384</td>\n",
+       "      <td>PO</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>Arizona</td>\n",
+       "      <td>7582384</td>\n",
+       "      <td>5994209</td>\n",
+       "      <td>113990</td>\n",
+       "      <td>NaN</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>Arkansas</td>\n",
+       "      <td>3088354</td>\n",
+       "      <td>2386510</td>\n",
+       "      <td>53179</td>\n",
+       "      <td>NaN</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>California</td>\n",
+       "      <td>39431263</td>\n",
+       "      <td>31012711</td>\n",
+       "      <td>163695</td>\n",
+       "      <td>PO</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>5</th>\n",
+       "      <td>Colorado</td>\n",
+       "      <td>5957493</td>\n",
+       "      <td>4744328</td>\n",
+       "      <td>104094</td>\n",
+       "      <td>NaN</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>6</th>\n",
+       "      <td>Connecticut</td>\n",
+       "      <td>3675069</td>\n",
+       "      <td>2947242</td>\n",
+       "      <td>5543</td>\n",
+       "      <td>AO</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>7</th>\n",
+       "      <td>Delaware</td>\n",
+       "      <td>1051917</td>\n",
+       "      <td>838204</td>\n",
+       "      <td>2489</td>\n",
+       "      <td>AO</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>8</th>\n",
+       "      <td>DC</td>\n",
+       "      <td>702250</td>\n",
+       "      <td>572419</td>\n",
+       "      <td>68</td>\n",
+       "      <td>NaN</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>9</th>\n",
+       "      <td>Florida</td>\n",
+       "      <td>23372215</td>\n",
+       "      <td>18872523</td>\n",
+       "      <td>65758</td>\n",
+       "      <td>AO, GM</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "         State  Population  Adult_Population  sq_miles   Coast\n",
+       "0      Alabama     5157699           4022842     52420      GM\n",
+       "1       Alaska      740133            565186    665384      PO\n",
+       "2      Arizona     7582384           5994209    113990     NaN\n",
+       "3     Arkansas     3088354           2386510     53179     NaN\n",
+       "4   California    39431263          31012711    163695      PO\n",
+       "5     Colorado     5957493           4744328    104094     NaN\n",
+       "6  Connecticut     3675069           2947242      5543      AO\n",
+       "7     Delaware     1051917            838204      2489      AO\n",
+       "8           DC      702250            572419        68     NaN\n",
+       "9      Florida    23372215          18872523     65758  AO, GM"
+      ]
+     },
+     "execution_count": 14,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df.head(10)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "faf2dc96-4a1d-4c8a-abc8-136f7c2194e7",
+   "metadata": {},
+   "source": [
+    "(Also note that in row 8 we have the District of Columbia so the size of our dataframe makes sense.)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 15,
+   "id": "bd160444-cb61-4da9-9dc7-f650f02569eb",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>State</th>\n",
+       "      <th>Population</th>\n",
+       "      <th>Adult_Population</th>\n",
+       "      <th>sq_miles</th>\n",
+       "      <th>Coast</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>46</th>\n",
+       "      <td>Virginia</td>\n",
+       "      <td>8811195</td>\n",
+       "      <td>6927764</td>\n",
+       "      <td>42775</td>\n",
+       "      <td>AO</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>47</th>\n",
+       "      <td>Washington</td>\n",
+       "      <td>7958180</td>\n",
+       "      <td>6303143</td>\n",
+       "      <td>71298</td>\n",
+       "      <td>PO</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>48</th>\n",
+       "      <td>West Virginia</td>\n",
+       "      <td>1769979</td>\n",
+       "      <td>1421615</td>\n",
+       "      <td>24230</td>\n",
+       "      <td>NaN</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>49</th>\n",
+       "      <td>Wisconsin</td>\n",
+       "      <td>5960975</td>\n",
+       "      <td>4719976</td>\n",
+       "      <td>65496</td>\n",
+       "      <td>GL</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>50</th>\n",
+       "      <td>Wyoming</td>\n",
+       "      <td>587618</td>\n",
+       "      <td>459626</td>\n",
+       "      <td>97813</td>\n",
+       "      <td>NaN</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "            State  Population  Adult_Population  sq_miles Coast\n",
+       "46       Virginia     8811195           6927764     42775    AO\n",
+       "47     Washington     7958180           6303143     71298    PO\n",
+       "48  West Virginia     1769979           1421615     24230   NaN\n",
+       "49      Wisconsin     5960975           4719976     65496    GL\n",
+       "50        Wyoming      587618            459626     97813   NaN"
+      ]
+     },
+     "execution_count": 15,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df.tail()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "3710306a-c788-4be8-a03c-e415c7bf07d3",
+   "metadata": {},
+   "source": [
+    "(It seems that our data is in alphabetical order.)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "5d4f8853-1010-4445-b0ba-1dcdac0efae1",
+   "metadata": {},
+   "source": [
+    "Data Frames consist of **observations** (rows) of **variables** (columns). (Not exacly the same as variables in python -- names of objects -- usually no confusion based on context.)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "95433a2d-a718-4130-9bfc-1f6af57f3b7c",
+   "metadata": {},
+   "source": [
+    "Each row is a state which we can *measure* from the perspective of the state's population, it's adult population (the number of residents over the age of 18), and it's geographic size (measured in square miles). "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "abf6cc68-3b0b-4a86-a181-d379f96adbc0",
+   "metadata": {},
+   "source": [
+    "Note that as we move between among the rows, we see different states, and the value of the particular variable (like **Population** or **sq_miles**) will change (vary over the observations)."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "b7ef73c3-ffd9-4bb2-a068-8ed09736cafa",
+   "metadata": {},
+   "source": [
+    "Another data set might have individual people as the observations, and their name, height, and hair color as variables."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "8521e2e5-9204-4a04-8f10-660bdd310ef9",
+   "metadata": {},
+   "source": [
+    "Variables can be *quantitative* (Population or height) or *categorical* (Coast or hair color)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "475fbdaa-13e4-4540-8aaf-84869604f545",
+   "metadata": {},
+   "source": [
+    "(What is the average population or size (in square miles) makes sense. What is the average Coast value of hair color does not make sense.)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "b5152bf6-6594-43f8-a574-22d6b6529431",
+   "metadata": {},
+   "source": [
+    "For now, let's throw away the `Coast` column. We can come back to it later on."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 16,
+   "id": "013e9f0b-31c4-4fa9-8e67-65d00d8dc357",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "del df['Coast']"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 17,
+   "id": "07015291-9612-4043-ba16-e7373017704d",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>State</th>\n",
+       "      <th>Population</th>\n",
+       "      <th>Adult_Population</th>\n",
+       "      <th>sq_miles</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>Alabama</td>\n",
+       "      <td>5157699</td>\n",
+       "      <td>4022842</td>\n",
+       "      <td>52420</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>Alaska</td>\n",
+       "      <td>740133</td>\n",
+       "      <td>565186</td>\n",
+       "      <td>665384</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>Arizona</td>\n",
+       "      <td>7582384</td>\n",
+       "      <td>5994209</td>\n",
+       "      <td>113990</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>Arkansas</td>\n",
+       "      <td>3088354</td>\n",
+       "      <td>2386510</td>\n",
+       "      <td>53179</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>California</td>\n",
+       "      <td>39431263</td>\n",
+       "      <td>31012711</td>\n",
+       "      <td>163695</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "        State  Population  Adult_Population  sq_miles\n",
+       "0     Alabama     5157699           4022842     52420\n",
+       "1      Alaska      740133            565186    665384\n",
+       "2     Arizona     7582384           5994209    113990\n",
+       "3    Arkansas     3088354           2386510     53179\n",
+       "4  California    39431263          31012711    163695"
+      ]
+     },
+     "execution_count": 17,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df.head()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "64010ab3-0327-4813-8c39-1d5a3df39ebf",
+   "metadata": {},
+   "source": [
+    "Some questions we might want to answwer..."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "db0de4bf-1ffb-4420-9123-4bb2bcfde12c",
+   "metadata": {},
+   "source": [
+    "1. Can we change the units of the population columns so they are given in millions of people.\n",
+    "1. What states are the most populous?\n",
+    "2. What states have the largest percentage of children?\n",
+    "3. What states are geographically largest?\n",
+    "4. What states are most densely populated?\n",
+    "   "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "bb2e46d4-0044-4d5d-ad40-04a488fbbcc6",
+   "metadata": {},
+   "source": [
+    "We will return to these questions in a sec. "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "2d7feea0-752b-4f90-8bcf-4c2eb294ad9b",
+   "metadata": {},
+   "source": [
+    "#### Series"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "b1be6f53-995b-4948-9377-c691cf85e408",
+   "metadata": {},
+   "source": [
+    "A series is a new data structure from pands that worth discussing for a minute. You can (basically) think of a Series as a one dimensional `numpy array` but, with an index that does not need to be an integer."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "2cad24e2-eba5-46a1-942d-4bded8ed4475",
+   "metadata": {},
+   "source": [
+    "Example: "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 18,
+   "id": "c85ab884-df12-4738-8a37-062c82d2ee96",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "ser1=pd.Series([1,1.5,2,7])"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 19,
+   "id": "606c33fe-589e-40fb-96ff-a6667fac68fa",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "ser2=pd.Series([1,1.5,2,7],index=['Charlie','Bob','Amy','Sally'])"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 20,
+   "id": "77b4fcbd-26cf-4e8d-b0bb-cf9672fffe3a",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "0    1.0\n",
+       "1    1.5\n",
+       "2    2.0\n",
+       "3    7.0\n",
+       "dtype: float64"
+      ]
+     },
+     "execution_count": 20,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "ser1"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 21,
+   "id": "2a9640f8-c0cc-40bc-a7fb-c3cc12c8cb36",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "Charlie    1.0\n",
+       "Bob        1.5\n",
+       "Amy        2.0\n",
+       "Sally      7.0\n",
+       "dtype: float64"
+      ]
+     },
+     "execution_count": 21,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "ser2"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "345692bd-6842-4e0d-b5f8-331568c57a5c",
+   "metadata": {},
+   "source": [
+    "We can use the index labels to access the series values."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 22,
+   "id": "283665b3-bfe5-44a3-8916-cf65fda83e38",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "np.float64(1.5)"
+      ]
+     },
+     "execution_count": 22,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "ser1[1]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 23,
+   "id": "f2fcac28-7f0d-4100-8e73-2972c1b2dacb",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "1    1.5\n",
+       "2    2.0\n",
+       "3    7.0\n",
+       "dtype: float64"
+      ]
+     },
+     "execution_count": 23,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "ser1[1:]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 24,
+   "id": "2ac7d691-af94-48c5-a426-b7eb26023f15",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "0    0.10\n",
+       "1    0.15\n",
+       "2    0.20\n",
+       "3    0.70\n",
+       "dtype: float64"
+      ]
+     },
+     "execution_count": 24,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "ser1/10"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 25,
+   "id": "60703951-9b42-44d2-84a8-27f910a0193f",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "np.float64(1.5)"
+      ]
+     },
+     "execution_count": 25,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "ser2['Bob']"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 26,
+   "id": "b68e1bf6-b9c2-4564-8c54-fbb217d114a5",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "Bob      1.5\n",
+       "Amy      2.0\n",
+       "Sally    7.0\n",
+       "dtype: float64"
+      ]
+     },
+     "execution_count": 26,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "ser2['Bob':]"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "a02bb737-ea2c-4ac3-92b6-06eb502e48cd",
+   "metadata": {},
+   "source": [
+    "You can think of each column in a data frame as a series, and you can think of a data frame as a collection of series that are 'aligned' along the index and glued together. That means that the column values are referring to the same observation (row/index)."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 27,
+   "id": "36f70558-9189-4fc0-b282-699a0a574dc9",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "pandas.core.series.Series"
+      ]
+     },
+     "execution_count": 27,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "type(df['Population'])"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 28,
+   "id": "e5cc9cff-c891-4293-8b88-232e4b7d77f1",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "pandas.core.series.Series"
+      ]
+     },
+     "execution_count": 28,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "type(df['sq_miles'])"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 29,
+   "id": "979f46bb-b0bd-48f2-9416-72c8e01571b1",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "np.int64(7582384)"
+      ]
+     },
+     "execution_count": 29,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df['Population'][2]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 30,
+   "id": "c38039b6-e7a8-4032-a501-e644c6b5f32d",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "np.int64(113990)"
+      ]
+     },
+     "execution_count": 30,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df['sq_miles'][2]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 31,
+   "id": "4c01d4a0-c609-489c-9009-04b0ffb3b74e",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "'Arizona'"
+      ]
+     },
+     "execution_count": 31,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df['State'][2]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 32,
+   "id": "081b63b8-dd4f-4924-9479-4f98090c4eaa",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "State               Arizona\n",
+       "Population          7582384\n",
+       "Adult_Population    5994209\n",
+       "sq_miles             113990\n",
+       "Name: 2, dtype: object"
+      ]
+     },
+     "execution_count": 32,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df.loc[2]"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "7dc47c25-1eb2-4d87-8b5f-fe36763e8c90",
+   "metadata": {},
+   "source": [
+    "Note: We accessed the column of the data frame using `df['column_name']`"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "ce57ba0a-b5d7-4c11-9662-5ab2c6ad6b19",
+   "metadata": {},
+   "source": [
+    "We accessed a row of the data frame using the .loc method: `df.loc['row_name']`. Here the rows were named 0,1,2,..."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "2492f667-8083-4b6e-9e8f-e883298032bd",
+   "metadata": {},
+   "source": [
+    "In `ser2` (a Series, like a one-column data frame) the rows (which only have one value in them) were names: "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 35,
+   "id": "70fc7a48-8d27-47f5-909b-fcc6d3a72c14",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "Charlie    1.0\n",
+       "Bob        1.5\n",
+       "Amy        2.0\n",
+       "Sally      7.0\n",
+       "dtype: float64"
+      ]
+     },
+     "execution_count": 35,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "ser2.head()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 34,
+   "id": "d96e33e5-246d-4a89-9252-8447c2da56cb",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "np.float64(1.5)"
+      ]
+     },
+     "execution_count": 34,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "ser2.loc['Bob']"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "1cac03b4-f079-42c8-a3a3-9387484f5abf",
+   "metadata": {},
+   "source": [
+    "If we wanted to access a `cell` (like the entry in the row labeled 3 of dataframe df, and the column named 'Population':  "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 36,
+   "id": "9de3c2dd-fc56-4c6e-afd8-a5c2d36d7d8e",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "np.int64(3088354)"
+      ]
+     },
+     "execution_count": 36,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df.loc[3,'Population'] #loc = location"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 48,
+   "id": "4035f6bb-b7e3-4055-a9dc-1e6e6dee4f0b",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "State               Arizona\n",
+       "Population          7582384\n",
+       "Adult_Population    5994209\n",
+       "sq_miles             113990\n",
+       "Name: 2, dtype: object"
+      ]
+     },
+     "execution_count": 48,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df.loc[2]"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "179d37a8-1274-4c87-81f2-0278cf17a784",
+   "metadata": {},
+   "source": [
+    "If `ser2` is the age of the kids named in the index, and we had another series that gives the number of siblings, like:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 41,
+   "id": "b6c95285-d21e-416e-ab68-0236d37db184",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "sibs=pd.Series([2,2,3,0],index=['Charlie','Bob','Amy','Sally'])"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 42,
+   "id": "e0cb46a4-ee6e-40d9-ab9b-3cc4c8a0ebb9",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "Charlie    2\n",
+       "Bob        2\n",
+       "Amy        3\n",
+       "Sally      0\n",
+       "dtype: int64"
+      ]
+     },
+     "execution_count": 42,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "sibs.head()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "cac310d0-f63a-4cd7-b622-ebd5033af338",
+   "metadata": {},
+   "source": [
+    "Then we could make a dataframe whose columns are `age` and `siblings` and whose index is the kids' names, which is the common (aligned) index for both series. "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 43,
+   "id": "9623cb08-deaa-4535-ad18-198ffd54b6c1",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "df_with_series = pd.DataFrame(\n",
+    "    { 'Age':ser2,\n",
+    "      'Siblings':sibs\n",
+    "    })"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 47,
+   "id": "be234a59-2416-4b05-bd64-9803d89de049",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>Age</th>\n",
+       "      <th>Siblings</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>Charlie</th>\n",
+       "      <td>1.0</td>\n",
+       "      <td>2</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>Bob</th>\n",
+       "      <td>1.5</td>\n",
+       "      <td>2</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>Amy</th>\n",
+       "      <td>2.0</td>\n",
+       "      <td>3</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>Sally</th>\n",
+       "      <td>7.0</td>\n",
+       "      <td>0</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "         Age  Siblings\n",
+       "Charlie  1.0         2\n",
+       "Bob      1.5         2\n",
+       "Amy      2.0         3\n",
+       "Sally    7.0         0"
+      ]
+     },
+     "execution_count": 47,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df_with_series"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 49,
+   "id": "27a397d2-72f4-48a8-ae68-c608ef04cd7d",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "Age         1.5\n",
+       "Siblings    2.0\n",
+       "Name: Bob, dtype: float64"
+      ]
+     },
+     "execution_count": 49,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df_with_series.loc['Bob']"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 50,
+   "id": "3d6b00f8-589c-47b6-999b-bad6d862a1be",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "Charlie    1.0\n",
+       "Bob        1.5\n",
+       "Amy        2.0\n",
+       "Sally      7.0\n",
+       "Name: Age, dtype: float64"
+      ]
+     },
+     "execution_count": 50,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df_with_series['Age']"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "699d5381-57ae-44e6-a8d1-d8624b92adca",
+   "metadata": {},
+   "source": [
+    "What happens if you try to make a dataframe where the indices aren't aligned?"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 51,
+   "id": "874bed3e-4eac-4cef-8304-23a0b4e5e988",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "snack_ser=pd.Series(['Carrots','Chips','Nuts','Yogurt','Bread'],index=['Charlie','Bob','Amy','Sally','Ryan'])"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 52,
+   "id": "a9a086e0-f7a6-49e6-b6e8-9f3ba6d932c2",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "test=pd.DataFrame(\n",
+    "    { 'Age':ser2,\n",
+    "      'Siblings':sibs,\n",
+    "      'Snack':snack_ser\n",
+    "    })"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 53,
+   "id": "e9688bf4-8ec1-4c1a-ae82-1d484cea4746",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>Age</th>\n",
+       "      <th>Siblings</th>\n",
+       "      <th>Snack</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>Amy</th>\n",
+       "      <td>2.0</td>\n",
+       "      <td>3.0</td>\n",
+       "      <td>Nuts</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>Bob</th>\n",
+       "      <td>1.5</td>\n",
+       "      <td>2.0</td>\n",
+       "      <td>Chips</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>Charlie</th>\n",
+       "      <td>1.0</td>\n",
+       "      <td>2.0</td>\n",
+       "      <td>Carrots</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>Ryan</th>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>Bread</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>Sally</th>\n",
+       "      <td>7.0</td>\n",
+       "      <td>0.0</td>\n",
+       "      <td>Yogurt</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "         Age  Siblings    Snack\n",
+       "Amy      2.0       3.0     Nuts\n",
+       "Bob      1.5       2.0    Chips\n",
+       "Charlie  1.0       2.0  Carrots\n",
+       "Ryan     NaN       NaN    Bread\n",
+       "Sally    7.0       0.0   Yogurt"
+      ]
+     },
+     "execution_count": 53,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "test"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "c1b3608f-bc1f-44d9-8165-54b7394528af",
+   "metadata": {},
+   "source": [
+    "One more quick example, here's a dataframe:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 67,
+   "id": "d0706189-278f-4da7-b128-26110ce38280",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "sc=pd.read_csv('scrabble.csv')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "8193688d-ef6c-459b-99ce-d6f9f4d09bbc",
+   "metadata": {},
+   "source": [
+    "That was the right code for me but maybe not for you. Read in the `scrabble.csv` data file."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "d03a3abd-91f3-451a-a746-8f9a50dcda89",
+   "metadata": {},
+   "source": [
+    "Let's take a look:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 68,
+   "id": "6e87b590-5420-4938-8822-0de8221bffc7",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>Letter</th>\n",
+       "      <th>Value</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>a</td>\n",
+       "      <td>1</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>b</td>\n",
+       "      <td>3</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>c</td>\n",
+       "      <td>3</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>d</td>\n",
+       "      <td>2</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>e</td>\n",
+       "      <td>1</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "  Letter  Value\n",
+       "0      a      1\n",
+       "1      b      3\n",
+       "2      c      3\n",
+       "3      d      2\n",
+       "4      e      1"
+      ]
+     },
+     "execution_count": 68,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "sc.head()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 59,
+   "id": "a7d8a305-e70c-4cb1-a9d7-04de74ba4b4b",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "pandas.core.frame.DataFrame"
+      ]
+     },
+     "execution_count": 59,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "type(sc)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "8cc4489a-f002-475d-b91f-2287234c098f",
+   "metadata": {},
+   "source": [
+    "What kind of object is this?"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "aaac0b43-eb0f-447c-b2d7-6f6d0becf82c",
+   "metadata": {},
+   "source": [
+    "Now run the code below. What did it do? Which is better, `sc` or `sc_ser`? Why? "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 63,
+   "id": "06e13fa4-2d11-41b2-b8c6-d5f980580356",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "sc_ser=pd.Series(sc['Value'].values,index=sc['Letter'])"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 70,
+   "id": "ec3c640c-74f3-4d60-b819-3983acfb8458",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "np.int64(1)"
+      ]
+     },
+     "execution_count": 70,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "sc_ser['r']"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "6dd29722-1691-4937-bd51-8768ae40778c",
+   "metadata": {},
+   "source": [
+    "So, recapping:"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "2f09855c-6388-40f5-aa1d-d954ae982a8f",
+   "metadata": {},
+   "source": [
+    "A data frame is a collection of columns (variables, series) glued together so that they align along rows (observations, index)."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "fce6f447-a970-4168-9815-701cad84f8b3",
+   "metadata": {},
+   "source": [
+    "We typically try to think of a data frame in terms of its columns, or sometimes, in terms of it's rows (stacked together horizontally). That way we're thinking about variables or observations."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "898b6957-1edb-4873-a62d-d28878e28292",
+   "metadata": {},
+   "source": [
+    "We can access only some of the columns by passing the column names in a list to the dataframe."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "d6261220-e979-492c-9f25-19789a18e454",
+   "metadata": {},
+   "source": [
+    "Here's an example."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 71,
+   "id": "a4c37253-0d40-46c0-b839-86beddc965ba",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>Population</th>\n",
+       "      <th>sq_miles</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>5157699</td>\n",
+       "      <td>52420</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>740133</td>\n",
+       "      <td>665384</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>7582384</td>\n",
+       "      <td>113990</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>3088354</td>\n",
+       "      <td>53179</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>39431263</td>\n",
+       "      <td>163695</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "   Population  sq_miles\n",
+       "0     5157699     52420\n",
+       "1      740133    665384\n",
+       "2     7582384    113990\n",
+       "3     3088354     53179\n",
+       "4    39431263    163695"
+      ]
+     },
+     "execution_count": 71,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df[['Population','sq_miles']].head()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "832a7f20-599e-45f2-8eed-43f9ff60bbe6",
+   "metadata": {},
+   "source": [
+    "Since this subset of our original frame has only numerical columns, we can apply methods like .mean() or .max()."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 72,
+   "id": "15055c9e-384e-46c2-840f-e86f0207a744",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "Population    6.668843e+06\n",
+       "sq_miles      7.444596e+04\n",
+       "dtype: float64"
+      ]
+     },
+     "execution_count": 72,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df[['Population','sq_miles']].mean()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "f2d8eccd-ddf0-452a-bee8-78889e892e22",
+   "metadata": {},
+   "source": [
+    "These are in scientific notation. The 6.668843e+06 means 6.668843 times 10 to the 6th power."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 73,
+   "id": "551c70eb-b24b-40b3-8dc4-65ccf2137830",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "Population    39431263\n",
+       "sq_miles        665384\n",
+       "dtype: int64"
+      ]
+     },
+     "execution_count": 73,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df[['Population','sq_miles']].max()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "562a34c6-e5c7-49e9-8460-f91adaefe28e",
+   "metadata": {},
+   "source": [
+    "What happens if you try these methods (.mean() and .max()) on the whole df dataframe?"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 75,
+   "id": "d6197320-eba0-4490-ab12-4ec1ba725570",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "#df.mean()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "a4b79b65-210b-47f7-9513-98ebe1272213",
+   "metadata": {},
+   "source": [
+    "It doesn't work because there are different types of data and it wouldn't make sense to take the mean or median of a State name for example."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "fe6b2334-30c6-41fd-a6c8-ccd1ddc30f87",
+   "metadata": {},
+   "source": [
+    "### A word on filtering"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "6887004a-90c9-40d9-ba12-d81859b5f417",
+   "metadata": {},
+   "source": [
+    "Sometimes you want to pick out certain elements of an array (or rows of a data frame)."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 76,
+   "id": "eda69238-3bea-46a6-b8be-74dfdafff4dd",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "arr=np.array([11.2,0.34,2.54,0.98,-1.37, 9.21])"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 77,
+   "id": "2fbae9ac-c0c8-401b-b38d-b125664f2b20",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "array([11.2 ,  0.34,  2.54,  0.98, -1.37,  9.21])"
+      ]
+     },
+     "execution_count": 77,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "arr"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "cad8a3f0-dd4f-426a-b1dc-30f2b56ee442",
+   "metadata": {},
+   "source": [
+    "We know we can access elements of the array py passing the index in brackets."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 78,
+   "id": "3ae7dad7-933a-4dcb-b6f3-71f18ee7cd18",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "np.float64(0.98)"
+      ]
+     },
+     "execution_count": 78,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "arr[3]"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "dfaa0a59-9858-45c7-84d9-89ec2c9ea228",
+   "metadata": {},
+   "source": [
+    "But we can also pass a list of the indices we want:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 79,
+   "id": "f9a3ef31-96ed-45ef-9246-e01c3caca818",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "array([11.2 ,  0.98, -1.37])"
+      ]
+     },
+     "execution_count": 79,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "arr[[0,3,4]]"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "e9f4de59-f0c5-480c-ba8e-0d9bb323997e",
+   "metadata": {},
+   "source": [
+    "Or a boolean list indicating the indices we want (and those we don't)."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 80,
+   "id": "0e142b48-1336-44fd-bf6c-c1e48a3d989e",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "array([11.2 ,  0.98, -1.37])"
+      ]
+     },
+     "execution_count": 80,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "arr[[True,False,False,True,True,False]]"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "2e0cd7d9-95f4-4e14-b2c3-ab5388785baa",
+   "metadata": {},
+   "source": [
+    "Suppose I want the entries in `arr` that have values greater than 1."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "665ad07f-4b6f-4533-a172-2cd7b7c4e91e",
+   "metadata": {},
+   "source": [
+    "A convenient way to do it is to create a boolean list of the indices where elements are greater than 1, and then pass that list to the array."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 81,
+   "id": "ccf3d159-31ee-4d4e-8691-36eccecfc5b5",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "array([ True, False,  True, False, False,  True])"
+      ]
+     },
+     "execution_count": 81,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "arr>1"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 82,
+   "id": "d2db762f-a36c-4463-9678-cb4366103644",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "array([11.2 ,  2.54,  9.21])"
+      ]
+     },
+     "execution_count": 82,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "arr[arr>1]"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "24cedc31-ef60-4aad-85a7-ddece0db4b11",
+   "metadata": {},
+   "source": [
+    "Since data frames are built on arrays, the same strategy will work for a data frame. For example, if we want all the states with more than 10 million people:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 83,
+   "id": "f62d8c37-88e8-474c-afba-a03a8282df0a",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>State</th>\n",
+       "      <th>Population</th>\n",
+       "      <th>Adult_Population</th>\n",
+       "      <th>sq_miles</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>California</td>\n",
+       "      <td>39431263</td>\n",
+       "      <td>31012711</td>\n",
+       "      <td>163695</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>9</th>\n",
+       "      <td>Florida</td>\n",
+       "      <td>23372215</td>\n",
+       "      <td>18872523</td>\n",
+       "      <td>65758</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>10</th>\n",
+       "      <td>Georgia</td>\n",
+       "      <td>11180878</td>\n",
+       "      <td>8640127</td>\n",
+       "      <td>59425</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>13</th>\n",
+       "      <td>Illinois</td>\n",
+       "      <td>12710158</td>\n",
+       "      <td>10012697</td>\n",
+       "      <td>57914</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>22</th>\n",
+       "      <td>Michigan</td>\n",
+       "      <td>10140459</td>\n",
+       "      <td>8031116</td>\n",
+       "      <td>96714</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>32</th>\n",
+       "      <td>New York</td>\n",
+       "      <td>19867248</td>\n",
+       "      <td>15884969</td>\n",
+       "      <td>54555</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>33</th>\n",
+       "      <td>North Carolina</td>\n",
+       "      <td>11046024</td>\n",
+       "      <td>8685722</td>\n",
+       "      <td>53819</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>35</th>\n",
+       "      <td>Ohio</td>\n",
+       "      <td>11883304</td>\n",
+       "      <td>9308934</td>\n",
+       "      <td>44826</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>38</th>\n",
+       "      <td>Pennsylvania</td>\n",
+       "      <td>13078751</td>\n",
+       "      <td>10448930</td>\n",
+       "      <td>46054</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>43</th>\n",
+       "      <td>Texas</td>\n",
+       "      <td>31290831</td>\n",
+       "      <td>23625608</td>\n",
+       "      <td>268596</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "             State  Population  Adult_Population  sq_miles\n",
+       "4       California    39431263          31012711    163695\n",
+       "9          Florida    23372215          18872523     65758\n",
+       "10         Georgia    11180878           8640127     59425\n",
+       "13        Illinois    12710158          10012697     57914\n",
+       "22        Michigan    10140459           8031116     96714\n",
+       "32        New York    19867248          15884969     54555\n",
+       "33  North Carolina    11046024           8685722     53819\n",
+       "35            Ohio    11883304           9308934     44826\n",
+       "38    Pennsylvania    13078751          10448930     46054\n",
+       "43           Texas    31290831          23625608    268596"
+      ]
+     },
+     "execution_count": 83,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df[df['Population']>10000000]"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "6c4b3f45-e1a2-410d-b2f8-d9e4a193155d",
+   "metadata": {},
+   "source": [
+    "Note that `df['Population']>10000000` gives the index values (rows) we want as a boolean list which we then passed to the data frame."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 86,
+   "id": "ac35af45-2522-4b1f-a023-a89e63351d97",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "0    False\n",
+       "1    False\n",
+       "2    False\n",
+       "3    False\n",
+       "4     True\n",
+       "Name: Population, dtype: bool"
+      ]
+     },
+     "execution_count": 86,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "example = df['Population']>10000000\n",
+    "example.head()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "48d13d6a-d342-4168-bcdd-e14750f6b0de",
+   "metadata": {},
+   "source": [
+    "OK. Let's answer some of the questions we asked earlier about our data frame of state populations."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "87f83292-94a6-4987-86d6-1c71381612e3",
+   "metadata": {},
+   "source": [
+    "Question 5. What states are the most densely populated? How should we define density?"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "a570cbec-becb-45a3-ba7e-fbcc36f3ee8c",
+   "metadata": {},
+   "source": [
+    "Now we will reap the benefits of the flexibility inherent in using numpy arrays to do arithmetic, and the fact that pandas objects like series are built on top of arrays. (Arrays are under the hood, so array style operations should work.)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "f73da46a-9750-46c1-bf79-bc5afdb9b50b",
+   "metadata": {},
+   "source": [
+    "Quick example/reminder"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 87,
+   "id": "1c73aae3-1569-4577-b5ec-20f01d5ad8f8",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "arr1=np.array([1,2,3])\n",
+    "arr2=np.array([4,5,6])"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 88,
+   "id": "f25b57ae-b81a-4218-bfc3-1cc073c18075",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "result_array=arr1/arr2 "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "f9276830-49e0-4987-809d-0dc58c05b8dd",
+   "metadata": {},
+   "source": [
+    "What should this be?"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 89,
+   "id": "85755f7e-ad8a-4019-97a9-a1d3a6342ea9",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "array([0.25, 0.4 , 0.5 ])"
+      ]
+     },
+     "execution_count": 89,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "result_array"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "662c4968-fb85-4244-814f-5c0ac1eb13a3",
+   "metadata": {},
+   "source": [
+    "Gameplan for Question 5. \n",
+    "\n",
+    "For each state (row), \n",
+    "\n",
+    "divide it's population (the value of the 'Population' column in that row) by it's size (the value of sq_miles' in that row) \n",
+    "\n",
+    "and \n",
+    "\n",
+    "keep track of that value -- \n",
+    "\n",
+    "maybe even make the result (pop/size) the row value of a new column called 'density'."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 101,
+   "id": "707b8474-5bdd-404e-8f1c-360d09180da2",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "density = df['Population']/df['sq_miles']"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 102,
+   "id": "55cab76d-312a-4b6a-96ce-57971dd46ed4",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "pandas.core.series.Series"
+      ]
+     },
+     "execution_count": 102,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "type(density)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 103,
+   "id": "b7005fbd-4546-4de0-a651-9ad609e189e6",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "df[\"Density\"] = density"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 105,
+   "id": "77527785-4f3b-4d30-9e90-9bd9837514ea",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>State</th>\n",
+       "      <th>Population</th>\n",
+       "      <th>Adult_Population</th>\n",
+       "      <th>sq_miles</th>\n",
+       "      <th>Density</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>Alabama</td>\n",
+       "      <td>5157699</td>\n",
+       "      <td>4022842</td>\n",
+       "      <td>52420</td>\n",
+       "      <td>98.391816</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>Alaska</td>\n",
+       "      <td>740133</td>\n",
+       "      <td>565186</td>\n",
+       "      <td>665384</td>\n",
+       "      <td>1.112340</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>Arizona</td>\n",
+       "      <td>7582384</td>\n",
+       "      <td>5994209</td>\n",
+       "      <td>113990</td>\n",
+       "      <td>66.517975</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>Arkansas</td>\n",
+       "      <td>3088354</td>\n",
+       "      <td>2386510</td>\n",
+       "      <td>53179</td>\n",
+       "      <td>58.074691</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>California</td>\n",
+       "      <td>39431263</td>\n",
+       "      <td>31012711</td>\n",
+       "      <td>163695</td>\n",
+       "      <td>240.882513</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "        State  Population  Adult_Population  sq_miles     Density\n",
+       "0     Alabama     5157699           4022842     52420   98.391816\n",
+       "1      Alaska      740133            565186    665384    1.112340\n",
+       "2     Arizona     7582384           5994209    113990   66.517975\n",
+       "3    Arkansas     3088354           2386510     53179   58.074691\n",
+       "4  California    39431263          31012711    163695  240.882513"
+      ]
+     },
+     "execution_count": 105,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df.head()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 109,
+   "id": "82b656d0-54f6-4434-85b5-136ba6218996",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "df_sorted = df.sort_values(\"Density\", ascending = False)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 111,
+   "id": "bc0133b3-a58f-4b82-a5b3-c3b53dbe4e30",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>State</th>\n",
+       "      <th>Population</th>\n",
+       "      <th>Adult_Population</th>\n",
+       "      <th>sq_miles</th>\n",
+       "      <th>Density</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>8</th>\n",
+       "      <td>DC</td>\n",
+       "      <td>702250</td>\n",
+       "      <td>572419</td>\n",
+       "      <td>68</td>\n",
+       "      <td>10327.205882</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "  State  Population  Adult_Population  sq_miles       Density\n",
+       "8    DC      702250            572419        68  10327.205882"
+      ]
+     },
+     "execution_count": 111,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df_sorted.head(1)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "0890029d-5858-43ff-b891-3e2cc3e6729f",
+   "metadata": {},
+   "source": [
+    "Finally, we'd probably want to sort the values by the entries in that column to find the biggest or smallest. (In this case we might not need to but imagine if you had a dataframe with thousands (or more) of rows."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "f363409c-9297-468d-a94a-1c1f67ac146f",
+   "metadata": {},
+   "source": [
+    "One last comment. If you want to save a dataframe you've created (maybe the states dataframe with the density column) you can write itr to your computer as follows:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 112,
+   "id": "50ab2ec0-4855-4d25-8a31-a06872a0ba1e",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "df.to_csv('density_of_USA_states.csv')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "23f3aec1-582f-4101-b4b6-5c24079268fe",
+   "metadata": {},
+   "source": [
+    "It should go to the same folder within which your jupyter notebook is running."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "4612d024-6f48-4e9d-bcfa-0ec1fd5b04fb",
+   "metadata": {},
+   "source": [
+    "## Playground"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "cfbb7fab-e341-4a2d-a6ea-4999584005f4",
+   "metadata": {},
+   "source": [
+    "1. Finish Implementing the gameplan for question 5 above.\n",
+    "2. Answer questions 1-4 about the states data frame we called `df`.\n",
+    "3. Import the titanic dataset `titanic.csv`.\n",
+    "4. How many people survived? How many were men? Women?\n",
+    "5. What was the average age of survivors? Non survivors?\n",
+    "6. What was the survival rate? \n",
+    "7. Generate some questions you might be curious about regarding the titanic. \n",
+    "8. Which questions can you answer? Are there any techniques you need but don't have yet?"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 148,
+   "id": "b43b478c-9c9c-4b78-b459-9e15f5de5ae9",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>State</th>\n",
+       "      <th>Population</th>\n",
+       "      <th>Adult_Population</th>\n",
+       "      <th>sq_miles</th>\n",
+       "      <th>Density</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>8</th>\n",
+       "      <td>DC</td>\n",
+       "      <td>702250</td>\n",
+       "      <td>572419</td>\n",
+       "      <td>68</td>\n",
+       "      <td>10327.205882</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "  State  Population  Adult_Population  sq_miles       Density\n",
+       "8    DC      702250            572419        68  10327.205882"
+      ]
+     },
+     "execution_count": 148,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "#1:\n",
+    "df_sorted.head(1)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "eda607a8-033b-4cf3-a5c3-e92134d642af",
+   "metadata": {},
+   "source": [
+    "The state with the highest density of population is DC."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 138,
+   "id": "df8535a5-6b7e-4491-be98-0f7cb717f6a0",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>PassengerId</th>\n",
+       "      <th>Survived</th>\n",
+       "      <th>Pclass</th>\n",
+       "      <th>Name</th>\n",
+       "      <th>Sex</th>\n",
+       "      <th>Age</th>\n",
+       "      <th>SibSp</th>\n",
+       "      <th>Parch</th>\n",
+       "      <th>Ticket</th>\n",
+       "      <th>Fare</th>\n",
+       "      <th>Cabin</th>\n",
+       "      <th>Embarked</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>3</td>\n",
+       "      <td>Braund, Mr. Owen Harris</td>\n",
+       "      <td>male</td>\n",
+       "      <td>22.0</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>A/5 21171</td>\n",
+       "      <td>7.2500</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>S</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>2</td>\n",
+       "      <td>1</td>\n",
+       "      <td>1</td>\n",
+       "      <td>Cumings, Mrs. John Bradley (Florence Briggs Th...</td>\n",
+       "      <td>female</td>\n",
+       "      <td>38.0</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>PC 17599</td>\n",
+       "      <td>71.2833</td>\n",
+       "      <td>C85</td>\n",
+       "      <td>C</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>3</td>\n",
+       "      <td>1</td>\n",
+       "      <td>3</td>\n",
+       "      <td>Heikkinen, Miss. Laina</td>\n",
+       "      <td>female</td>\n",
+       "      <td>26.0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>STON/O2. 3101282</td>\n",
+       "      <td>7.9250</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>S</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>4</td>\n",
+       "      <td>1</td>\n",
+       "      <td>1</td>\n",
+       "      <td>Futrelle, Mrs. Jacques Heath (Lily May Peel)</td>\n",
+       "      <td>female</td>\n",
+       "      <td>35.0</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>113803</td>\n",
+       "      <td>53.1000</td>\n",
+       "      <td>C123</td>\n",
+       "      <td>S</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>5</td>\n",
+       "      <td>0</td>\n",
+       "      <td>3</td>\n",
+       "      <td>Allen, Mr. William Henry</td>\n",
+       "      <td>male</td>\n",
+       "      <td>35.0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>373450</td>\n",
+       "      <td>8.0500</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>S</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "   PassengerId  Survived  Pclass  \\\n",
+       "0            1         0       3   \n",
+       "1            2         1       1   \n",
+       "2            3         1       3   \n",
+       "3            4         1       1   \n",
+       "4            5         0       3   \n",
+       "\n",
+       "                                                Name     Sex   Age  SibSp  \\\n",
+       "0                            Braund, Mr. Owen Harris    male  22.0      1   \n",
+       "1  Cumings, Mrs. John Bradley (Florence Briggs Th...  female  38.0      1   \n",
+       "2                             Heikkinen, Miss. Laina  female  26.0      0   \n",
+       "3       Futrelle, Mrs. Jacques Heath (Lily May Peel)  female  35.0      1   \n",
+       "4                           Allen, Mr. William Henry    male  35.0      0   \n",
+       "\n",
+       "   Parch            Ticket     Fare Cabin Embarked  \n",
+       "0      0         A/5 21171   7.2500   NaN        S  \n",
+       "1      0          PC 17599  71.2833   C85        C  \n",
+       "2      0  STON/O2. 3101282   7.9250   NaN        S  \n",
+       "3      0            113803  53.1000  C123        S  \n",
+       "4      0            373450   8.0500   NaN        S  "
+      ]
+     },
+     "execution_count": 138,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "#3.\n",
+    "titanic_df = pd.read_csv(\"titanic.csv\")\n",
+    "titanic_df.head()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 145,
+   "id": "8a8e33f4-dd63-47d1-9e8c-189b1bded638",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "A total of 342 people survived.\n",
+      "A total of 109 males survived.\n",
+      "A total of 233 females survived.\n"
+     ]
+    }
+   ],
+   "source": [
+    "#4.\n",
+    "survived = sum(titanic_df['Survived'])\n",
+    "print(f'A total of {survived} people survived.')\n",
+    "\n",
+    "\n",
+    "males = titanic_df[titanic_df['Sex'] == 'male']\n",
+    "males_survived = sum(males['Survived'])\n",
+    "print(f'A total of {males_survived} males survived.')\n",
+    "\n",
+    "females = titanic_df[titanic_df['Sex'] == 'female']\n",
+    "females_survived = sum(females['Survived'])\n",
+    "print(f'A total of {females_survived} females survived.')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "f9e03a64-05df-4e84-96e8-32e0b79f3693",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "titanic_df"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3 (ipykernel)",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.13.7"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
